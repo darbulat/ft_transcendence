@@ -24,17 +24,17 @@ export class UsersService {
     await this.usersRepository.delete(id);
   }
 
-  async create(username: string): Promise<User> {
+  async create(username: string, intraId: number): Promise<User> {
     return await this.usersRepository.save({
       username: username,
-      intraId: 1,
+      intraId: intraId,
       password: 'changeme',
     });
   }
-  async findOrCreate({ username: username }) {
+  async findOrCreate({ username: username, intraId: intraId }) {
     let user: User = await this.findOne(username);
     if (!user) {
-      user = await this.create(username);
+      user = await this.create(username, intraId);
     }
     return user;
   }

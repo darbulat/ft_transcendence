@@ -28,6 +28,7 @@ export class FtStrategy extends PassportStrategy(Strategy, '42') {
     try {
       await this.userService.findOrCreate({
         username: profile.username,
+        intraId: profile.id,
       });
       cb(null, profile);
     } catch (e) {
