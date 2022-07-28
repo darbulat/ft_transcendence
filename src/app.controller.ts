@@ -68,6 +68,6 @@ export class AppController {
   @Get('logout')
   @Redirect('/')
   logOut(@Req() req: Request) {
-    req.logOut();
+    req.session.destroy(null);
   }
 }
