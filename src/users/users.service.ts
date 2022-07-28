@@ -14,10 +14,12 @@ export class UsersService {
     return this.usersRepository.find();
   }
 
-  findOne(username: string): Promise<User> {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
+  findOneByUsername(username: string): Promise<User> {
     return this.usersRepository.findOneBy({ username: username });
+  }
+
+  findOneById(id: number): Promise<User> {
+    return this.usersRepository.findOneBy({ id: id });
   }
 
   async remove(id: string): Promise<void> {
@@ -27,12 +29,19 @@ export class UsersService {
   async create(username: string, intraId: number): Promise<User> {
     return await this.usersRepository.save({
       username: username,
+      displayName: username,
       intraId: intraId,
       password: 'changeme',
     });
   }
+
+  async update({ id: id, displayName: displayName }) {
+    await this.usersRepository.update(id, { displayName: displayName });
+    return this.findOneById(id);
+  }
+
   async findOrCreate({ username: username, intraId: intraId }) {
-    let user: User = await this.findOne(username);
+    let user: User = await this.findOneByUsername(username);
     if (!user) {
       user = await this.create(username, intraId);
     }

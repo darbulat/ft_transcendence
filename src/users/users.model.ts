@@ -15,6 +15,9 @@ export class User {
   username: string;
 
   @Column({ unique: true })
+  displayName: string;
+
+  @Column({ unique: true })
   intraId: number;
 
   @CreateDateColumn()
